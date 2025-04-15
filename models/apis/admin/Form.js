@@ -8,7 +8,7 @@ const getListing = async (req, res) => {
 }
 
 const insert = async (data) => {
-    const timestamp = new Date();
+    const timestamp = new Date().toLocaleString();
     const makeData = {
         ...data,
         slug: null,

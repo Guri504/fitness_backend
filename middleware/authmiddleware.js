@@ -3,7 +3,6 @@ const userModel = require('../models/apis/admin/Users')
 const verifyToken = async (req, res, next) => {
     try {
         const authHeader = req.headers["authorization"];
-
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return (
                 res.send({
@@ -15,7 +14,6 @@ const verifyToken = async (req, res, next) => {
 
         const tokenValue = authHeader.split(" ")[1] // Extract token after "Bearer "
         let user = await userModel.getUserFromToken(tokenValue);
-        // console.log("user", user)
         if (!user) {
             return (
                 res.send({

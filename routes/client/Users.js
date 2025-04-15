@@ -9,6 +9,6 @@ clientUsersRouter.put('/client/user/edit', VerifyToken.verifyToken, clientUsersC
 clientUsersRouter.put('/client/user/editPassword', VerifyToken.verifyToken, clientUsersController.updatePassword);
 clientUsersRouter.post('/client/user/forgotPassword', clientUsersController.forgotPassword);
 clientUsersRouter.post('/client/user/otp/:tempToken', clientUsersController.otpVerification);
-clientUsersRouter.put('/client/user/resetPassword/:tempToken', clientUsersController.resetPassword)
+clientUsersRouter.put('/client/user/resetPassword/:tempToken', clientUsersController.resetPassword);
 
 module.exports = clientUsersRouter;

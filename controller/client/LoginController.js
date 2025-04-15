@@ -7,7 +7,6 @@ const login = async (req, res) => {
         const { email1, password1 } = req.body
 
         const user = await userModel.getByEmail(email1);
-        // console.log("user", user)
         if (!user) {
             return (
                 res.send({
@@ -27,7 +26,7 @@ const login = async (req, res) => {
             );
         }
 
-        const tokenData = generateToken(32, 3600)
+        const tokenData = generateToken(32, 10800)
 
         const storeToken = await userModel.updateToken(user._id, tokenData.token, tokenData.expiresAt);
         if (!storeToken) {
@@ -48,10 +47,11 @@ const login = async (req, res) => {
                     email1: user.email1,
                     username1: user.username1,
                     firstName1: user.firstName1,
-                    lastName1:  user.lastName1,
+                    lastName1: user.lastName1,
                     password1: user.password1,
                     country1: user.country1,
                     image1: user.image1,
+                    address: user.address
                 }
             })
         );

@@ -19,7 +19,7 @@ const insert = async (data) => {
         status: 1,
         created_at: timeStamp,
         updated_at: timeStamp,
-        deleted_at: timeStamp
+        deleted_at: null
     }
     try {
         let resp = await db.MembershipPlanServices.insertOne(makeData);

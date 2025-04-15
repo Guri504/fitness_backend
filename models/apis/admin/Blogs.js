@@ -12,7 +12,7 @@ const getListingForClient = async (req, res) => {
 }
 
 const insert = async (data) => {
-    const timestamp = new Date();
+    const timestamp = new Date().toLocaleString();
     const makedata = {
         ...data,
         slug: null,
@@ -37,7 +37,7 @@ const insert = async (data) => {
 
 const update = async (id, data) => {
     delete data._id
-    const timestamp = new Date();
+    const timestamp = new Date().toLocaleString();
     const updateData = {
         ...data,
         updated_at: timestamp,
@@ -50,10 +50,7 @@ const update = async (id, data) => {
             { $set: updateData },
             { new: true, returnDocument: "after" });
         console.log("respmodel", resp)
-        // if (resp) {
-        //     let record = await getById(id);
-        //     return record;
-        // }
+
         return resp
     }
     catch (error) {

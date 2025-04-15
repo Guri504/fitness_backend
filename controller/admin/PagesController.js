@@ -1,96 +1,49 @@
-const pagesModel = require("../../models/apis/admin/Pages")
+const PageModel = require('../../models/apis/admin/Pages')
 
-const index = async (req, res) => {
-    let Listing = await pagesModel.getListing(req);
-
-    return res.send({
-        status: true,
-        message: Listing
-    })
-}
-
-const add = async (req, res) => {
+const updatePageContent = async (req, res) => {
+    let { slug } = req.params;
     let data = req.body;
-
-    let resp = await pagesModel.insert(data);
-
+    console.log("slug", slug , "data", data)
+    let resp = await PageModel.updatePageContent(slug, data);
+    console.log(resp)
     if (resp) {
-        return res.send({
+        res.send({
             status: true,
-            message: 'Record has been saved successfully.',
+            message: "Page Updated",
             data: resp
         })
     }
     else {
-        return res.send({
+        res.send({
             status: false,
-            message: 'Not able to save record. Please try again later.',
-            data: []
+            message: "Not able to update Page."
         })
     }
 }
 
-const update = async (req, res) => {
-    let resp = await pagesModel.update();
-
-    if (resp) {
-        return res.send({
-            status: true,
-            message: 'Record has been updated successfully.',
-            data: resp
-        })
+const getPageContent = async (req, res) => {
+    let { slug } = req.params;
+    let resp = await PageModel.getPageContent(slug);
+    if(resp){
+        return(
+            res.send({
+                status: true,
+                message: "Content find successfully",
+                data: resp
+            })
+        )
     }
-    else {
-        return res.send({
-            status: false,
-            message: 'Not able to save record. Please try again later.',
-            data: []
-        })
-    }
-}
-
-const deleteRow = async (req, res) => {
-    let resp = await pagesModel.remove();
-
-    if (resp) {
-        return res.send({
-            status: true,
-            message: 'Record has been deleted successfully.',
-            data: resp
-        })
-    }
-    else {
-        return res.send({
-            status: false,
-            message: 'Not able to delete record. Please try again later.',
-            data: []
-        })
-    }
-}
-
-const detail = async (req, res) => {
-    let resp = await pagesModel.getById();
-
-    if (resp) {
-        return res.send({
-            status: true,
-            message: 'Record has been fetch successfully.',
-            data: resp
-        })
-    }
-    else {
-        return res.send({
-            status: false,
-            message: 'Not able to fetch record. Please try again later.',
-            data: []
-        })
+    else{
+        return(
+            res.send({
+                status: false,
+                message: "Not able to find content"
+            })
+        )
     }
 }
 
 module.exports = {
-    index,
-    add,
-    update,
-    deleteRow,
-    detail
+    updatePageContent,
+    getPageContent
 }

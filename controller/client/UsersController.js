@@ -1,4 +1,5 @@
 const { generateToken, generateOtp } = require('../../helper/General');
+const { sendOtpMail } = require('../../helper/MailSender');
 const userModel = require('../../models/apis/admin/Users');
 const bcrypt = require('bcryptjs')
 
@@ -201,7 +202,8 @@ const forgotPassword = async (req, res) => {
     const tempToken = generateToken(16, 300);
     const tempOtp = generateOtp(5);
     const storeOtpAndToken = await userModel.updateOtp(user._id, tempToken.token, tempToken.expiresAt, tempOtp.otp, tempOtp.otpExpire);
-    if (!storeOtpAndToken) {
+    const sendOtp = await sendOtpMail(email1, tempOtp.otp)
+    if (!storeOtpAndToken || !sendOtp) {
         return (
             res.send({
                 status: false,
@@ -309,5 +311,5 @@ module.exports = {
     updatePassword,
     forgotPassword,
     otpVerification,
-    resetPassword
+    resetPassword,
 }

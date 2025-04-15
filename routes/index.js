@@ -1,21 +1,38 @@
 // ADMIN ROUTES
-exports.adminPagesRouter = require('./admin/Pages');
 exports.adminBlogsRouter = require('./admin/Blogs');
+exports.adminPagesRouter = require('./admin/Pages')
 exports.adminFormRouter = require('./admin/Form');
 exports.adminUsersRouter = require('./admin/Users');
 exports.adminBlogsCategoryRouter = require('./admin/BlogsCategory');
 exports.uploadsRouter = require('./Uploads');
-exports.AdminMembershipPlanServicesRouter = require('./admin/MembershipPlanServices')
-exports.AdminTrainingPlanServicesRouter = require('./admin/TrainingPlanServices')
-exports.AdminMembershipPlansRouter = require('./admin/MembershipPlans')
-exports.AdminTrainingPlansRouter = require('./admin/TrainingPlans')
+exports.AdminMembershipPlanServicesRouter = require('./admin/MembershipPlanServices');
+exports.AdminTrainingPlanServicesRouter = require('./admin/TrainingPlanServices');
+exports.AdminMembershipPlansRouter = require('./admin/MembershipPlans');
+exports.AdminTrainingPlansRouter = require('./admin/TrainingPlans');
+exports.adminSuccessStoriesRouter = require('./admin/Success_Stories');
+exports.adminAboutMeRouter = require('./admin/About_Me');
+exports.AdminStartegyPlansRouter = require('./admin/Strategy_Plans');
+exports.adminProductsRouter = require('./admin/Products');
+exports.adminProductsCategoryRouter = require('./admin/Products_Category');
+exports.adminProductsSizeRouter = require('./admin/Products_Sizes');
+exports.adminProductsColorRouter = require('./admin/Products_Colors');
 
 
 
 
 // CLIENT ROUTES
+exports.clientloginRouter = require('./client/Login');
+exports.clientUsersRouter = require('./client/Users');
+exports.clientPagesRouter = require('./client/Pages');
 exports.clientBlogsRouter = require('./client/Blogs');
 exports.clientBlogsCategoryRouter = require('./client/BlogsCategory');
-exports.clientUsersRouter = require('./client/Users');
-exports.clientloginRouter = require('./client/Login');
-exports.ClientMembershipPlanServicesRouter = require('./client/MembershipPlanServices')
+exports.ClientMembershipPlanServicesRouter = require('./client/MembershipPlanServices');
+exports.ClientTrainingPlanServicesRouter = require('./client/TrainingPlanServices');
+exports.ClientMembershipPlansRouter = require('./client/MembershipPlans');
+exports.ClientTrainingPlansRouter = require('./client/TrainingPlans');
+exports.clientStoriesRouter = require('./client/Success_Stories');
+exports.clientAboutMeRouter = require('./client/About_Me');
+exports.ClientStrategyPlansRouter = require('./client/Strategy_Plans');
+exports.clientProductRouter = require('./client/Products');
+exports.clientUserCartRouter = require('./client/User_Cart');
+exports.clientOrdersRouter = require('./client/Orders')

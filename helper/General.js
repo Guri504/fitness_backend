@@ -35,9 +35,31 @@ const generateOtp = ( expireInMinutes = 5) => {
     return { otp, otpExpire}
 }
 
+const generateSlug = (text) => {
+    return text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')        // Replace spaces with -
+      .replace(/[^a-z0-9\-]/g, '') // Remove special chars
+      .replace(/\-{2,}/g, '-')     // Replace multiple - with single -
+      .replace(/^-+|-+$/g, '');    // Trim - from start/end
+  }
+
+  const generateString = (length = 5) => {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    let string = '';
+    for (let i = 0; i < length; i++) {
+        string += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return string
+  }
+
 module.exports ={
     isJSON,
     foreach,
     generateToken,
     generateOtp,
+    generateSlug,
+    generateString
 }

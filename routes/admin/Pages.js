@@ -1,12 +1,8 @@
-const express = require("express")
+const express = require("express");
 const adminPagesRouter = express.Router();
+const adminPagesController = require("../../controller/admin/PagesController");
 
-const adminPagesController = require('../../controller/admin/PagesController');
-
-adminPagesRouter.get('/admin/pages', adminPagesController.index);
-adminPagesRouter.post('/admin/page/add', adminPagesController.add);
-adminPagesRouter.put('/admin/page/edit/:id', adminPagesController.update);
-adminPagesRouter.delete('/admin/page/delete/:id', adminPagesController.deleteRow);
-adminPagesRouter.get('/admin/page/view/:id', adminPagesController.detail);
+adminPagesRouter.put('/admin/update-page-content/:slug', adminPagesController.updatePageContent);
+adminPagesRouter.get('/admin/get-page-content/:slug', adminPagesController.getPageContent);
 
 module.exports = adminPagesRouter;

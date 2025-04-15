@@ -12,7 +12,7 @@ const getListingForClient = async (req, res) => {
 }
 
 const insert = async (data) => {
-    const timestamp = new Date();
+    const timestamp = new Date().toLocaleString();
     const makedata = {
         ...data,
         slug: null,
@@ -36,7 +36,7 @@ const insert = async (data) => {
 }
 
 const update = async (id, data) => {
-    const timestamp = new Date();
+    const timestamp = new Date().toLocaleString();
     const updatedData = {
         ...data,
         updated_at: timestamp
