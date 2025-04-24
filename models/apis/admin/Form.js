@@ -3,7 +3,7 @@ const db = require('../../index');
 
 
 const getListing = async (req, res) => {
-    const listing = await db.form.find({ 'status': 1 }).toArray();
+    const listing = await db.form.find({ isDeleted: false }).toArray();
     return listing;
 }
 
@@ -13,6 +13,7 @@ const insert = async (data) => {
         ...data,
         slug: null,
         status: 1,
+        isDeleted: false,
         created_at: timestamp,
         updated_at: timestamp,
         deleted_at: null
@@ -34,14 +35,14 @@ const insert = async (data) => {
 }
 
 const getById = async (id, select) => {
-try {
-    let record = await db.form.findOne({ _id: new ObjectId(`${id}`)}, { projection: select});
-    // console.log(record)
-    return record
-}
-catch (error) {
-    return false
-}
+    try {
+        let record = await db.form.findOne({ _id: new ObjectId(`${id}`) }, { projection: select });
+        // console.log(record)
+        return record
+    }
+    catch (error) {
+        return false
+    }
 }
 
 module.exports = {

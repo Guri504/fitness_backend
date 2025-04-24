@@ -20,7 +20,6 @@ const getCartByIdAndUpdate = async (id, data) => {
             },
             { new: true, returnDocument: "after" }
         );
-        console.log(resp)
         return resp;
     } catch (error) {
         console.log(error)
@@ -43,7 +42,7 @@ const insert = async (id, data) => {
                 "products.productId": productId,
                 "products.variantId": variantId
             }
-            
+
         )
         if (existing) {
             let updateQuantity = await db.user_cart.updateOne({
@@ -110,7 +109,7 @@ const getById = async (id) => {
 
 const getProductById = async (id) => {
     try {
-        let resp = await db.Products.find({ _id: { $in: id } }).toArray();
+        let resp = await db.products.find({ _id: { $in: id } }).toArray();
         return resp;
     } catch (error) {
         return false
@@ -119,47 +118,48 @@ const getProductById = async (id) => {
 
 const getVariantById = async (id) => {
     try {
-        let resp = await db.Product_Variants.find({ _id: { $in: id } }).toArray();
+        let resp = await db.product_variants.find({ _id: { $in: id } }).toArray();
         return resp;
     } catch (error) {
+        console.log('error', error)
         return false
     }
 }
 
 const updateAddress = async (userId, address) => {
-	try {
-		let record = await db.user_cart.findOneAndUpdate(
-			{ userId: new ObjectId(`${userId}`) },
-			{
-				$set: {
-					address: address,
-					updated_at: new Date().toLocaleString(),
-				}
-			},
-            {returnDocument: "after"}
-		);
-		return record;
-	} catch (error) {
-		return error;
-	}
+    try {
+        let record = await db.user_cart.findOneAndUpdate(
+            { userId: new ObjectId(`${userId}`) },
+            {
+                $set: {
+                    address: address,
+                    updated_at: new Date().toLocaleString(),
+                }
+            },
+            { returnDocument: "after" }
+        );
+        return record;
+    } catch (error) {
+        return error;
+    }
 };
 
 const updateAddressInUser = async (userId, address) => {
     try {
         let record = await db.users.findOneAndUpdate(
             { _id: new ObjectId(`${userId}`) },
-			{
+            {
                 $set: {
                     address: address,
-					updated_at: new Date().toLocaleString(),
-				}
-			},
-            {returnDocument: "after"}
-		);
-		return record;
-	} catch (error) {
-		return error;
-	}
+                    updated_at: new Date().toLocaleString(),
+                }
+            },
+            { returnDocument: "after" }
+        );
+        return record;
+    } catch (error) {
+        return error;
+    }
 };
 
 module.exports = {

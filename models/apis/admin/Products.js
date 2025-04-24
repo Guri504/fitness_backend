@@ -2,12 +2,12 @@ const { ObjectId, ReturnDocument } = require('mongodb');
 const db = require('../../index');
 
 const getListingForAdmin = async (req, res) => {
-    let listing = await db.Products.find().toArray();
+    let listing = await db.products.find({ isDeleted: false }).toArray();
     return listing;
 }
 
 const getListingForClient = async (req, res) => {
-    let listing = await db.Products.find({ status: 1}).toArray();
+    let listing = await db.products.find({ status: 1, isDeleted: false }).toArray();
     return listing;
 }
 
@@ -17,11 +17,13 @@ const insert = async (slug, data) => {
         ...data,
         slug: slug,
         status: 1,
+        isDeleted: false,
+        deleted_at: null,
         created_at: timeStamp,
         updated_at: timeStamp,
     }
     try {
-        let resp = await db.Products.insertOne(makeData);
+        let resp = await db.products.insertOne(makeData);
         return resp
     } catch (error) {
         return false
@@ -33,11 +35,13 @@ const insertVarient = async (data) => {
     let makeData = data.map(variantData => ({
         ...variantData,
         status: 1,
+        isDeleted: false,
+        deleted_at: null,
         created_at: timeStamp,
         updated_at: timeStamp,
     }))
     try {
-        let resp = await db.Product_Variants.insertMany(makeData);
+        let resp = await db.product_variants.insertMany(makeData);
         return resp
     } catch (error) {
         return false
@@ -51,7 +55,7 @@ const update = async (id, data) => {
         updated_at: timeStamp,
     }
     try {
-        let resp = await db.Products.findOneAndUpdate(
+        let resp = await db.products.findOneAndUpdate(
             { _id: new ObjectId(`${id}`) },
             { $set: updatedData },
             { new: true, ReturnDocument: "after" }
@@ -64,7 +68,10 @@ const update = async (id, data) => {
 
 const remove = async (id) => {
     try {
-        let resp = await db.Products.deleteOne({ _id: new ObjectId(`${id}`) })
+        let resp = await db.products.findOneAndUpdate(
+            { _id: new ObjectId(`${id}`) },
+            { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } },
+            { returnDocument: "after" })
         return resp;
     } catch (error) {
         return error;
@@ -73,7 +80,7 @@ const remove = async (id) => {
 
 const getById = async (id) => {
     try {
-        let record = await db.Products.findOne({ _id: new ObjectId(`${id}`) });
+        let record = await db.products.findOne({ _id: new ObjectId(`${id}`) });
         return record
     }
     catch (error) {
@@ -84,7 +91,8 @@ const getById = async (id) => {
 
 const removeVariantByProductId = async (id) => {
     try {
-        let resp = await db.Product_Variants.deleteMany({productId: new ObjectId(`${id}`)});
+        let resp = await db.product_variants.updateMany({ productId: new ObjectId(`${id}`) },
+            { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } });
         return resp;
     } catch (error) {
         return false;
@@ -92,20 +100,22 @@ const removeVariantByProductId = async (id) => {
 }
 
 const getVariantsByProductId = async (id) => {
-    let variantListing = await db.Product_Variants.find({productId: new ObjectId(`${id}`)}).toArray();
+    let variantListing = await db.product_variants.find({ productId: new ObjectId(`${id}`) }).toArray();
     return variantListing;
 }
 
 const removeVariant = async (deletedIds) => {
     console.log('deletedIds')
-    let resp = await db.Product_Variants.deleteMany({_id: {$in: deletedIds.map(id => new ObjectId(`${id}`))}});
+    let resp = await db.product_variants.updateMany(
+        { _id: { $in: deletedIds.map(id => new ObjectId(`${id}`)) } },
+        { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } });
     // console.log("resp", resp)
     return resp
 }
 
 const bulkOperation = async (bulkOps) => {
-    if(bulkOps.length > 0){
-        let resp = await db.Product_Variants.bulkWrite(bulkOps)
+    if (bulkOps.length > 0) {
+        let resp = await db.product_variants.bulkWrite(bulkOps)
         return resp;
     }
 }

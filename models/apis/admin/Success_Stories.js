@@ -2,12 +2,12 @@ const { ObjectId } = require("mongodb");
 const db = require("../../index");
 
 const getListingForAdmin = async (req, res) => {
-    let listing = await db.Success_Stories.find().toArray();
+    let listing = await db.success_stories.find({ isDeleted: false }).toArray();
     return listing
 }
 
 const getListingForClient = async (req, res) => {
-    const listing = await db.Success_Stories.find({ 'status': 1 }).toArray();
+    const listing = await db.success_stories.find({ 'status': 1, isDeleted: false }).toArray();
     return listing
 }
 
@@ -17,12 +17,13 @@ const insert = async (data) => {
         ...data,
         slug: null,
         status: 1,
+        isDeleted: false,
         deleted_at: null,
         created_at: timestamp,
         updated_at: timestamp
     }
     try {
-        let resp = await db.Success_Stories.insertOne(makedata);
+        let resp = await db.success_stories.insertOne(makedata);
         return resp;
     } catch (error) {
         return error;
@@ -37,7 +38,7 @@ const update = async (id, data) => {
         updated_at: timestamp,
     }
     try {
-        let resp = await db.Success_Stories.findOneAndUpdate(
+        let resp = await db.success_stories.findOneAndUpdate(
             { _id: new ObjectId(`${id}`) },
             { $set: updateData },
             { new: true, returnDocument: "after" });
@@ -51,7 +52,10 @@ const update = async (id, data) => {
 
 const remove = async (id) => {
     try {
-        let resp = await db.Success_Stories.deleteOne({ _id: new ObjectId(`${id}`) })
+        let resp = await db.success_stories.findOneAndUpdate(
+            { _id: new ObjectId(`${id}`) },
+            { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } },
+            { returnDocument: "after" })
         return resp;
     } catch (error) {
         return error;
@@ -60,7 +64,7 @@ const remove = async (id) => {
 
 const getById = async (id) => {
     try {
-        let record = await db.Success_Stories.findOne({ _id: new ObjectId(`${id}`) });
+        let record = await db.success_stories.findOne({ _id: new ObjectId(`${id}`) });
         return record
     }
     catch (error) {

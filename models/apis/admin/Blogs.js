@@ -2,12 +2,12 @@ const { ObjectId } = require("mongodb");
 const db = require("../../index")
 
 const getListingForAdmin = async (req, res) => {
-    let listing = await db.blogs.find().toArray();
+    let listing = await db.blogs.find({ isDeleted: false }).toArray();
     return listing
 }
 
 const getListingForClient = async (req, res) => {
-    const listing = await db.blogs.find({ 'status': 1 }).toArray();
+    const listing = await db.blogs.find({ 'status': 1, isDeleted: false }).toArray();
     return listing
 }
 
@@ -18,6 +18,7 @@ const insert = async (data) => {
         slug: null,
         status: 1,
         deleted_at: null,
+        isDeleted: false,
         created_at: timestamp,
         updated_at: timestamp
     }
@@ -61,7 +62,7 @@ const update = async (id, data) => {
 
 const remove = async (id) => {
     try {
-        let resp = await db.blogs.deleteOne({ _id: new ObjectId(`${id}`) })
+        let resp = await db.blogs.findOneAndUpdate({ _id: new ObjectId(`${id}`) }, { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } }, { returnDocument: "after" })
         console.log("delete", resp)
         return resp
     } catch (error) {

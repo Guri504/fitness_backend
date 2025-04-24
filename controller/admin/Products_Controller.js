@@ -105,6 +105,8 @@ const update = async (req, res) => {
             document: {
                 ...data,
                 productId: new ObjectId(`${id}`),
+                isDeleted: false,
+                deleted_at: null,
                 created_at: new Date().toLocaleString(),
                 updated_at: new Date().toLocaleString()
             }
@@ -129,7 +131,7 @@ const deleteRow = async (req, res) => {
     if (!delVariant) {
         res.send({
             status: false,
-            message: "NOy able to delete Product Variants"
+            message: "Not able to delete Product Variants"
         })
     }
     let resp = await ProductsModel.remove(id);

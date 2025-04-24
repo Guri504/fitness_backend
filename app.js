@@ -7,10 +7,13 @@ require('dotenv').config();
 const path = require('path');
 const { verifyToken } = require("./middleware/authmiddleware");
 const port = process.env.PORT;
+const fileUpload = require('express-fileupload');
 
 
 app.use(bodyParser.json({ limit: '200mb' }));
 app.use(cors());
+
+app.use(fileUpload());
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 

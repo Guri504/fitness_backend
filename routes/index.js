@@ -16,7 +16,8 @@ exports.adminProductsRouter = require('./admin/Products');
 exports.adminProductsCategoryRouter = require('./admin/Products_Category');
 exports.adminProductsSizeRouter = require('./admin/Products_Sizes');
 exports.adminProductsColorRouter = require('./admin/Products_Colors');
-
+exports.adminTrashRouter = require('./admin/Trash');
+exports.adminVideoRouter = require('./admin/Videos');
 
 
 
@@ -35,4 +36,6 @@ exports.clientAboutMeRouter = require('./client/About_Me');
 exports.ClientStrategyPlansRouter = require('./client/Strategy_Plans');
 exports.clientProductRouter = require('./client/Products');
 exports.clientUserCartRouter = require('./client/User_Cart');
-exports.clientOrdersRouter = require('./client/Orders')
+exports.clientOrdersRouter = require('./client/Orders');
+exports.clientTransactionRouter = require('./client/Transactions');
+exports.clientNutritionAdvisorRouter = require('./client/Nutrition_Advisor');

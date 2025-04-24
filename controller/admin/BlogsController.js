@@ -34,7 +34,7 @@ const add = async (req, res) => {
 const update = async (req, res) => {
     let { id } = req.params;
     let data = req.body;
-    let resp = await blogsModel.update(id,data);
+    let resp = await blogsModel.update(id, data);
     console.log("ggg", resp)
     if (resp) {
         res.send({
@@ -55,7 +55,7 @@ const update = async (req, res) => {
 const deleteRow = async (req, res) => {
     let { id } = req.params;
     let resp = await blogsModel.remove(id);
-    if(resp) {
+    if (resp) {
         res.send({
             status: true,
             message: "Blog is deleted successfully",

@@ -214,6 +214,7 @@ const insert = async (data) => {
 		...data,
 		slug: null,
 		status: 1,
+		isDeleted: false,
 		created_at: timestamp,
 		updated_at: timestamp,
 		deleted_at: null,
@@ -327,7 +328,7 @@ const updateOtp = async (id, token, expiresAt, otp, otpExpires) => {
 };
 
 const getUserFromTempToken = async (tempToken) => {
-	console.log("kk", tempToken);
+
 	try {
 		let user = await db.users.findOne({
 			tempToken: tempToken,

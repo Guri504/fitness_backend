@@ -6,10 +6,10 @@ const index = async (req, res) => {
     let resp = await userCartModel.getCartByUserId(id);
     if (resp) {
         const variantId = resp.products.length > 0 && resp.products.map(p => p.variantId);
-        
+
         let variantResp = await userCartModel.getVariantById(variantId);
-        if(!variantResp){
-            return ( 
+        if (!variantResp) {
+            return (
                 res.send({
                     status: false,
                     message: "Not able to find Varaint of product"
@@ -18,8 +18,8 @@ const index = async (req, res) => {
         }
         const productId = variantResp.length > 0 && variantResp.map(v => v.productId);
         let productResp = await userCartModel.getProductById(productId);
-        if(!productResp){
-            return(
+        if (!productResp) {
+            return (
                 res.send({
                     status: false,
                     message: "Not able to find Product"
@@ -51,9 +51,10 @@ const add = async (req, res) => {
     let data = req.body;
     finalData = {
         ...data,
-       productId: new ObjectId(`${data.productId}`),
-       variantId: new ObjectId(`${data.variantId}`)
+        productId: new ObjectId(`${data.productId}`),
+        variantId: new ObjectId(`${data.variantId}`)
     }
+
     let resp = await userCartModel.insert(id, finalData);
     if (resp) {
         return (
@@ -78,8 +79,8 @@ const update = async (req, res) => {
     let { id } = req.params;
     let data = req.body;
     let resp = await userCartModel.getCartByIdAndUpdate(id, data);
-    if(resp){
-        return(
+    if (resp) {
+        return (
             res.send({
                 status: true,
                 message: "quantity updated successfully",
@@ -87,8 +88,8 @@ const update = async (req, res) => {
             })
         )
     }
-    else{
-        return(
+    else {
+        return (
             res.send({
                 status: false,
                 message: "not able to update cart quantity",
@@ -102,16 +103,16 @@ const removeVariant = async (req, res) => {
     let data = req.body;
     try {
         let resp = await userCartModel.removeVariantFromcart(id, data);
-        if(resp){
-            return(
+        if (resp) {
+            return (
                 res.send({
                     status: true,
                     message: "Variant deleted Succesfully"
                 })
             )
         }
-        else{
-            return(
+        else {
+            return (
                 res.send({
                     status: false,
                     message: "Not able to delete variant"
@@ -119,7 +120,7 @@ const removeVariant = async (req, res) => {
             )
         }
     } catch (error) {
-        
+
     }
 }
 
@@ -128,8 +129,8 @@ const addressUpdate = async (req, res) => {
     let data = req.body;
     let resp = await userCartModel.updateAddress(id, data);
     let respUser = await userCartModel.updateAddressInUser(id, data);
-    if(resp && respUser){
-        return(
+    if (resp && respUser) {
+        return (
             res.send({
                 status: true,
                 message: "Address updated successfully",
@@ -137,8 +138,8 @@ const addressUpdate = async (req, res) => {
             })
         )
     }
-    else{
-        return(
+    else {
+        return (
             res.send({
                 status: false,
                 message: "Not able to update address, try again later"

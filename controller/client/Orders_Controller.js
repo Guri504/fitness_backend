@@ -1,6 +1,5 @@
 const { ObjectId } = require('mongodb');
 const OrdersModel = require('../../models/apis/admin/Orders');
-const TransactionModel = require('../../models/apis/admin/Transactions');
 
 
 const addOrder = async (req, res) => {
@@ -36,6 +35,8 @@ const addOrder = async (req, res) => {
         let timeStamp = new Date().toLocaleString()
         let makeOrder = {
             ...data,
+            isDeleted: false,
+            deleted_at: null,
             created_at: timeStamp,
             orderStatus: 'Order Placed',
             Status: 1
@@ -50,6 +51,7 @@ const addOrder = async (req, res) => {
             )
         }
 
+        // get newely placed order
         const getOrder = await OrdersModel.getOrderById(resp.insertedId);
         if (!getOrder) {
             return res.send({
@@ -58,60 +60,11 @@ const addOrder = async (req, res) => {
             })
         }
 
-        // // make transaction object in collection
-        // let makeTransaction = {
-        //     orderId: resp.insertedId,
-        //     created_at: timeStamp,
-        //     amount: data.totalAmount,
-        //     status: 'success',
-        //     currency: 'INR'
-        // }
-        // let transactionResp = await TransactionModel.insert(makeTransaction);
-        // if (!transactionResp) {
-        //     return res.send({
-        //         status: false,
-        //         message: "Payment Unsuccessfull",
-        //     })
-        // }
-
-        // // update stock in product variant by decresing the order quantity
-        // const stockUpdate = variants?.length > 0 && variants.map((item) => {
-        //     console.log(typeof item.quantity)
-        //     return {
-        //         updateOne: {
-        //             filter: { _id: new ObjectId(`${item.variantId}`), stock: { $gte: item.quantity } },
-        //             update: { $inc: { stock: -item.quantity } }
-        //         }
-        //     }
-        // })
-        // const variantStockUpdate = await OrdersModel.bulkOperation(stockUpdate);
-        // console.log("variantStockUpdate", variantStockUpdate)
-        // if (!variantStockUpdate || variantStockUpdate.modifiedCount === 0) {
-        //     return (
-        //         res.send({
-        //             status: false,
-        //             message: "Not able to update stock in after placing order"
-        //         })
-        //     )
-        // }
-
-        // // empty user cart after order successfully done
-        // const emptyArray = await OrdersModel.emptyCartAfterOrdered(data.userId);
-        // if (!emptyArray) {
-        //     return (
-        //         res.send({
-        //             status: true,
-        //             message: "Unable to make cart empty after placing order"
-        //         })
-        //     )
-        // }
-
         return (
             res.send({
                 status: true,
-                message: "Order and Payment are successfully done",
-                order: getOrder,
-                // transactionId: transactionResp.insertedId
+                message: "Order are successfully done",
+                order: getOrder
             })
         )
     }

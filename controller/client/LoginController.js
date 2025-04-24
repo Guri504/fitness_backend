@@ -45,6 +45,7 @@ const login = async (req, res) => {
                     expiresAt: tokenData.expiresAt,
                     id: user._id,
                     email1: user.email1,
+                    mobileNumber: user.mobileNumber,
                     username1: user.username1,
                     firstName1: user.firstName1,
                     lastName1: user.lastName1,

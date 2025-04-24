@@ -2,7 +2,7 @@ const { ObjectId, ReturnDocument } = require('mongodb');
 const db = require('../../index');
 
 const getListingForAdmin = async (req, res) => {
-    let listing = await db.Products_Sizes.find().toArray();
+    let listing = await db.products_sizes.find({ isDeleted: false }).toArray();
     return listing;
 }
 
@@ -12,11 +12,13 @@ const insert = async (data) => {
         ...data,
         slug: null,
         status: 1,
+        isDeleted: false,
+        deleted_at: null,
         created_at: timeStamp,
         updated_at: timeStamp,
     }
     try {
-        let resp = await db.Products_Sizes.insertOne(makeData);
+        let resp = await db.products_sizes.insertOne(makeData);
         return resp
     } catch (error) {
         return false
@@ -30,7 +32,7 @@ const update = async (id, data) => {
         updated_at: timeStamp,
     }
     try {
-        let resp = await db.Products_Sizes.findOneAndUpdate(
+        let resp = await db.products_sizes.findOneAndUpdate(
             { _id: new ObjectId(`${id}`) },
             { $set: updatedData },
             { new: true, ReturnDocument: "after" }
@@ -43,7 +45,10 @@ const update = async (id, data) => {
 
 const remove = async (id) => {
     try {
-        let resp = await db.Products_Sizes.deleteOne({ _id: new ObjectId(`${id}`) })
+        let resp = await db.products_sizes.findOneAndUpdate(
+            { _id: new ObjectId(`${id}`) },
+            { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } },
+            { returnDocument: "after" })
         return resp;
     } catch (error) {
         return error;
@@ -52,7 +57,7 @@ const remove = async (id) => {
 
 const getById = async (id) => {
     try {
-        let record = await db.Products_Sizes.findOne({ _id: new ObjectId(`${id}`) });
+        let record = await db.products_sizes.findOne({ _id: new ObjectId(`${id}`) });
         return record
     }
     catch (error) {
