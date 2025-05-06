@@ -7,6 +7,6 @@ adminAboutMeRouter.get('/admin/about_me_winner', adminVerifyToken, adminAboutMeC
 adminAboutMeRouter.post('/admin/about_me_winner/add', adminVerifyToken, adminAboutMeController.add);
 adminAboutMeRouter.put('/admin/about_me_winner/edit/:id', adminVerifyToken, adminAboutMeController.update);
 adminAboutMeRouter.get('/admin/about_me_winner/view/:id', adminVerifyToken, adminAboutMeController.detail);
-adminAboutMeRouter.delete('/admin/about_me_winner/delete/:id', adminVerifyToken, adminAboutMeController.deleteRow);
+adminAboutMeRouter.put('/admin/about_me_winner/delete/:id', adminVerifyToken, adminAboutMeController.deleteRow);
 
 module.exports = adminAboutMeRouter;

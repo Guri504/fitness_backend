@@ -7,6 +7,6 @@ adminSuccessStoriesRouter.get('/admin/success_stories', adminVerifyToken, adminS
 adminSuccessStoriesRouter.post('/admin/success_stories/add', adminVerifyToken, adminSuccessStoriesController.add);
 adminSuccessStoriesRouter.put('/admin/success_stories/edit/:id', adminVerifyToken, adminSuccessStoriesController.update);
 adminSuccessStoriesRouter.get('/admin/success_stories/view/:id', adminVerifyToken, adminSuccessStoriesController.detail);
-adminSuccessStoriesRouter.delete('/admin/success_stories/delete/:id', adminVerifyToken, adminSuccessStoriesController.deleteRow);
+adminSuccessStoriesRouter.put('/admin/success_stories/delete/:id', adminVerifyToken, adminSuccessStoriesController.deleteRow);
 
 module.exports = adminSuccessStoriesRouter;

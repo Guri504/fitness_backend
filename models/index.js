@@ -48,6 +48,7 @@ const db = {};
         db.videos = database.collection('videos');
         db.user_plans = database.collection('user_plans');
         db.admin = database.collection('admin');
+        db.email_logs = database.collection('email_logs');
 
     }
     catch (error) {

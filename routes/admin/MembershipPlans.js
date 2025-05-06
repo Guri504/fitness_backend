@@ -7,6 +7,6 @@ AdminMembershipPlansRouter.get('/admin/membershipPlans', adminVerifyToken, Admin
 AdminMembershipPlansRouter.post('/admin/membershipPlan/add', adminVerifyToken, AdminMembershipPlansController.add);
 AdminMembershipPlansRouter.put('/admin/membershipPlan/edit/:id', adminVerifyToken, AdminMembershipPlansController.update);
 AdminMembershipPlansRouter.get('/admin/membershipPlan/view/:id', adminVerifyToken, AdminMembershipPlansController.detail);
-AdminMembershipPlansRouter.delete('/admin/membershipPlan/delete/:id', adminVerifyToken, AdminMembershipPlansController.deleteRow);
+AdminMembershipPlansRouter.put('/admin/membershipPlan/delete/:id', adminVerifyToken, AdminMembershipPlansController.deleteRow);
 
 module.exports = AdminMembershipPlansRouter;

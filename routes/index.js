@@ -22,6 +22,7 @@ exports.adminOrdersRouter = require('./admin/Orders');
 exports.adminDeleteManyRouter = require('./admin/Delete_Many');
 exports.adminRouter = require('./admin/Admin');
 exports.adminTransactionsRouter = require('./admin/Transactions');
+exports.adminEmailLOgsRouter = require('./admin/Email_Logs')
 
 
 

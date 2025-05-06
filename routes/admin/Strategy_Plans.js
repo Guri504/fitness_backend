@@ -7,6 +7,6 @@ AdminStartegyPlansRouter.get('/admin/strategy_plans', adminVerifyToken, AdminStr
 AdminStartegyPlansRouter.post('/admin/strategy_plan/add', adminVerifyToken, AdminStrategyPlansController.add);
 AdminStartegyPlansRouter.put('/admin/strategy_plan/edit/:id', adminVerifyToken, AdminStrategyPlansController.update);
 AdminStartegyPlansRouter.get('/admin/strategy_plan/view/:id', adminVerifyToken, AdminStrategyPlansController.detail);
-AdminStartegyPlansRouter.delete('/admin/strategy_plan/delete/:id', adminVerifyToken, AdminStrategyPlansController.deleteRow);
+AdminStartegyPlansRouter.put('/admin/strategy_plan/delete/:id', adminVerifyToken, AdminStrategyPlansController.deleteRow);
 
 module.exports = AdminStartegyPlansRouter;

@@ -1,5 +1,5 @@
 const { generateToken, generateOtp } = require('../../helper/General');
-const { sendOtpMail, sendLinkMail } = require('../../helper/MailSender');
+const { sendOtpMail, sendLinkMail, sendMail } = require('../../helper/MailSender');
 const adminModel = require('../../models/apis/admin/Admin');
 const bcrypt = require('bcryptjs')
 
@@ -78,8 +78,9 @@ const forgotPassword = async (req, res) => {
 
     const tempToken = generateToken(16, 300);
     const storeToken = await adminModel.updateOtp(admin._id, tempToken.token, tempToken.expiresAt);
+    let subject = 'Link for change login password'
     const resetLink = `http://localhost:3000/auth/resetPassword?token=${tempToken.token}`
-    const sendLink = await sendLinkMail(email, resetLink)
+    const sendLink = await sendMail({ to: email, subject, description: resetLink })
     if (!storeToken || !sendLink) {
         return (
             res.send({

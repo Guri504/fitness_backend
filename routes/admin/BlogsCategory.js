@@ -7,6 +7,6 @@ adminBlogsCategoryRouter.get('/admin/blogsCategory', adminVerifyToken, adminBlog
 adminBlogsCategoryRouter.post('/admin/blogsCategory/add', adminVerifyToken, adminBlogsCategoryController.add);
 adminBlogsCategoryRouter.get('/admin/blogsCategory/view/:id', adminVerifyToken, adminBlogsCategoryController.detail);
 adminBlogsCategoryRouter.put('/admin/blogsCategory/edit/:id', adminVerifyToken, adminBlogsCategoryController.update);
-adminBlogsCategoryRouter.delete('/admin/blogsCategory/delete/:id', adminVerifyToken, adminBlogsCategoryController.deleteRow);
+adminBlogsCategoryRouter.put('/admin/blogsCategory/delete/:id', adminVerifyToken, adminBlogsCategoryController.deleteRow);
 
 module.exports = adminBlogsCategoryRouter

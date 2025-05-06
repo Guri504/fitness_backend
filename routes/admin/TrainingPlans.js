@@ -7,6 +7,6 @@ AdminTrainingPlansRouter.get('/admin/trainingPlans', adminVerifyToken, AdminTrai
 AdminTrainingPlansRouter.post('/admin/trainingPlan/add', adminVerifyToken, AdminTrainingPlansController.add);
 AdminTrainingPlansRouter.put('/admin/trainingPlan/edit/:id', adminVerifyToken, AdminTrainingPlansController.update);
 AdminTrainingPlansRouter.get('/admin/trainingPlan/view/:id', adminVerifyToken, AdminTrainingPlansController.detail);
-AdminTrainingPlansRouter.delete('/admin/trainingPlan/delete/:id', adminVerifyToken, AdminTrainingPlansController.deleteRow);
+AdminTrainingPlansRouter.put('/admin/trainingPlan/delete/:id', adminVerifyToken, AdminTrainingPlansController.deleteRow);
 
 module.exports = AdminTrainingPlansRouter;

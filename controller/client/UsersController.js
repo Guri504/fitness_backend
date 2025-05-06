@@ -1,5 +1,5 @@
 const { generateToken, generateOtp } = require('../../helper/General');
-const { sendOtpMail } = require('../../helper/MailSender');
+const { sendOtpMail, sendMail } = require('../../helper/MailSender');
 const userModel = require('../../models/apis/admin/Users');
 const bcrypt = require('bcryptjs')
 
@@ -201,7 +201,9 @@ const forgotPassword = async (req, res) => {
     const tempToken = generateToken(16, 300);
     const tempOtp = generateOtp(5);
     const storeOtpAndToken = await userModel.updateOtp(user._id, tempToken.token, tempToken.expiresAt, tempOtp.otp, tempOtp.otpExpire);
-    const sendOtp = await sendOtpMail(email1, tempOtp.otp)
+    let subject = 'OTP for reset password'
+    let description = `Your OTP is ${tempOtp.otp}. It will expire in 5 minutes`
+    const sendOtp = await sendMail({ to: email1, subject, description })
     if (!storeOtpAndToken || !sendOtp) {
         return (
             res.send({
