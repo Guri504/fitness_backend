@@ -31,7 +31,6 @@ const update = async (req, res) => {
     let { id } = req.params;
     let data = req.body;
     let resp = await AboutMeModel.update(id, data);
-    console.log("ggg", resp)
     if (resp) {
         res.send({
             status: true,

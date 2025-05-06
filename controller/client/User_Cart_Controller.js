@@ -4,9 +4,8 @@ const userCartModel = require('../../models/apis/admin/User_Cart');
 const index = async (req, res) => {
     let { id } = req.params;
     let resp = await userCartModel.getCartByUserId(id);
-    if (resp) {
-        const variantId = resp.products.length > 0 && resp.products.map(p => p.variantId);
-
+    if (resp && resp.products.length > 0) {
+        const variantId = resp.products?.length > 0 && resp.products.map(p => p.variantId);
         let variantResp = await userCartModel.getVariantById(variantId);
         if (!variantResp) {
             return (

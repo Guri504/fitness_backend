@@ -52,11 +52,58 @@ const generateString = (length = 5) => {
     return string
 }
 
+const formateDate = (d) => {
+    let newDate = new Date(d).toISOString().split('T')[0];
+    return newDate;
+}
+
+const isToday = (date) => {
+    return formateDate(date) === formateDate(new Date());
+}
+
+const isThisWeek = (date) => {
+    const today = new Date();
+    const inputDate = new Date(date);
+
+    const startOfWeek = new Date(today);
+    startOfWeek.setDate(today.getDate() - today.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+
+    return inputDate >= startOfWeek && inputDate <= endOfWeek
+}
+
+const isThisMonth = (date) => {
+    const today = new Date();
+    const inputDate = new Date(date);
+
+    return (
+        today.getMonth() === inputDate.getMonth()
+    )
+}
+
+const isThisYear = (date) => {
+    const today = new Date();
+    const inputDate = new Date(date);
+
+    return (
+        today.getFullYear() === inputDate.getFullYear()
+    )
+}
+
 module.exports = {
     isJSON,
     foreach,
     generateToken,
     generateOtp,
     generateSlug,
-    generateString
+    generateString,
+    formateDate,
+    isToday,
+    isThisWeek,
+    isThisMonth,
+    isThisYear
 }

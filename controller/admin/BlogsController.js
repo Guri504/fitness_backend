@@ -11,7 +11,6 @@ const indexOfAdmin = async (req, res) => {
 
 const add = async (req, res) => {
     let data = req.body;
-    console.log("data", data)
 
     let resp = await blogsModel.insert(data);
     if (resp) {
@@ -35,7 +34,6 @@ const update = async (req, res) => {
     let { id } = req.params;
     let data = req.body;
     let resp = await blogsModel.update(id, data);
-    console.log("ggg", resp)
     if (resp) {
         res.send({
             status: true,
@@ -64,21 +62,13 @@ const deleteRow = async (req, res) => {
     else {
         res.send({
             status: false,
-            message: "NOPt able to delete blog"
+            message: "Not able to delete blog"
         })
     }
 }
 
 const detail = async (req, res) => {
     let { id } = req.params;
-    // let select = {
-    //     "_id": 0,
-    //     "title": 1,
-    //     "subHeading": 1,
-    //     "category": 1,
-    //     "description": 1,
-    //     "publishedOn": 1
-    // }
     let resp = await blogsModel.getById(id);
     if (resp) {
         res.send({

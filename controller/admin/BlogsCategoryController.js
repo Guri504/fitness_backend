@@ -38,7 +38,7 @@ const update = async (req, res) => {
             data: resp
         })
     }
-    else { 
+    else {
         res.send({
             status: false,
             message: "not able to update blog category. Try again later",
@@ -50,7 +50,6 @@ const update = async (req, res) => {
 const deleteRow = async (req, res) => {
     let { id } = req.params;
     let resp = await BlogsCategoryModel.remove(id)
-    console.log("====", resp)
     if (resp) {
         res.send({
             status: true,
@@ -67,14 +66,7 @@ const deleteRow = async (req, res) => {
 
 const detail = async (req, res) => {
     let { id } = req.params;
-    // let select = {
-    //     "_id": 0,
-    //     "blogCategoryTitle": 1,
-    //     "blogCategoryDesc": 1,
-    //     "blogCategoryCreatorName": 1,
-    // }
     let resp = await BlogsCategoryModel.getById(id);
-    console.log("kji", resp)
     if (resp) {
         res.send({
             status: true,

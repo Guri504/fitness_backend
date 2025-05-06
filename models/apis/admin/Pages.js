@@ -14,7 +14,6 @@ const updatePageContent = async (slug, data) => {
             },
             { upsert: true, returnDocument: "after" }
         )
-        console.log("resp", resp)
         return resp;
     } catch (error) {
         return error
@@ -23,7 +22,7 @@ const updatePageContent = async (slug, data) => {
 
 const getPageContent = async (slug) => {
     try {
-        let resp = await db.pages.findOne({slug: slug});
+        let resp = await db.pages.findOne({ slug: slug });
         return resp;
     } catch (error) {
         return false

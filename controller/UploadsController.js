@@ -7,7 +7,6 @@ const upload = async (req, res) => {
 
     if (image) {
         let uploadResp = await uploadBase64(image, folder_name);
-        console.log("+++", uploadResp)
         if (uploadResp.status) {
             let imageFile = uploadResp.imageUrl.split('/');
             let fileName = imageFile[(imageFile.length) - 1];
@@ -16,7 +15,6 @@ const upload = async (req, res) => {
 
             if (resize_large) {
                 await resizeImage(uploadResp.imageUrl, resize_large, `${filePath}/L-${fileName}`);
-                console.log("ll", uploadResp.imageUrl)
             }
 
             if (resize_medium) {
@@ -26,8 +24,6 @@ const upload = async (req, res) => {
             if (resize_small) {
                 await resizeImage(uploadResp.imageUrl, resize_small, `${filePath}/S-${fileName}`);
             }
-
-            console.log('dd', uploadResp.imageUrl);
 
             res.json({
                 status: uploadResp.status,
@@ -83,7 +79,6 @@ const upload = async (req, res) => {
 //         });
 //     }
 // }
-
 
 const videoUploaded = async (req, res) => {
     const video = req.files?.video;

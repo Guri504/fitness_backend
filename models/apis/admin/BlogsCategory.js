@@ -61,7 +61,6 @@ const remove = async (id) => {
             { _id: new ObjectId(`${id}`) },
             { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } },
             { returnDocument: "after" })
-        console.log(resp)
         return resp
 
     } catch (error) {
@@ -73,7 +72,6 @@ const remove = async (id) => {
 const getById = async (id) => {
     try {
         let record = await db.blogs_category.findOne({ _id: new ObjectId(`${id}`) });
-        console.log(record)
         return record
     } catch (error) {
         return ("Error in finding the data", error)

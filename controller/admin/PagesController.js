@@ -3,9 +3,7 @@ const PageModel = require('../../models/apis/admin/Pages')
 const updatePageContent = async (req, res) => {
     let { slug } = req.params;
     let data = req.body;
-    console.log("slug", slug , "data", data)
     let resp = await PageModel.updatePageContent(slug, data);
-    console.log(resp)
     if (resp) {
         res.send({
             status: true,
@@ -24,8 +22,8 @@ const updatePageContent = async (req, res) => {
 const getPageContent = async (req, res) => {
     let { slug } = req.params;
     let resp = await PageModel.getPageContent(slug);
-    if(resp){
-        return(
+    if (resp) {
+        return (
             res.send({
                 status: true,
                 message: "Content find successfully",
@@ -33,8 +31,8 @@ const getPageContent = async (req, res) => {
             })
         )
     }
-    else{
-        return(
+    else {
+        return (
             res.send({
                 status: false,
                 message: "Not able to find content"

@@ -66,7 +66,7 @@ const putInTrashById = async (id) => {
     try {
         let resp = await db.videos.findOneAndUpdate(
             { _id: new ObjectId(`${id}`) },
-            { $set: { isDeleted: true, deleted_at: Date.now().toLocaleString() } },
+            { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } },
         );
         return resp;
     } catch (error) {

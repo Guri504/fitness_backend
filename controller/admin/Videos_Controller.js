@@ -42,7 +42,6 @@ const update = async (req, res) => {
 
 const view = async (req, res) => {
     let { id } = req.params;
-    console.log("id", id)
     let resp = await VideosModel.getById(id);
     if (!resp) { return res.send({ status: false, message: 'Not able to get data' }) }
     return (

@@ -118,7 +118,6 @@ const updatePassword = async (req, res) => {
     }
     try {
         let password = req.user.password1;
-        console.log("Password", password)
         const matchPassword = await bcrypt.compare(data.oldPassword1, password);
         if (!matchPassword) {
             return (

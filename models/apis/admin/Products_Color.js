@@ -2,7 +2,7 @@ const { ObjectId, ReturnDocument } = require('mongodb');
 const db = require('../../index');
 
 const getListingForAdmin = async (req, res) => {
-    let listing = await db.products_color.find().toArray({ isDeleted: false });
+    let listing = await db.products_color.find({ isDeleted: false }).toArray();
     return listing;
 }
 

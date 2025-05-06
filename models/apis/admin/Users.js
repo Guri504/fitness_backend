@@ -153,7 +153,7 @@ const signUpSchema = Joi.object({
 });
 
 const getListing = async (req, res) => {
-	let listing = await db.users.find({ status: 1 }).toArray();
+	let listing = await db.users.find({ isDeleted: false }).toArray();
 	return listing;
 };
 
@@ -328,7 +328,6 @@ const updateOtp = async (id, token, expiresAt, otp, otpExpires) => {
 };
 
 const getUserFromTempToken = async (tempToken) => {
-
 	try {
 		let user = await db.users.findOne({
 			tempToken: tempToken,

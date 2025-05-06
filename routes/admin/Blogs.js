@@ -1,12 +1,13 @@
 const express = require("express");
 const adminBlogsRouter = express.Router();
 const adminBlogsController = require("../../controller/admin/BlogsController");
+const { adminVerifyToken } = require("../../middleware/authmiddleware");
 
-adminBlogsRouter.get('/admin/blogs', adminBlogsController.indexOfAdmin);
-adminBlogsRouter.post('/admin/blog/add', adminBlogsController.add);
-adminBlogsRouter.put('/admin/blog/edit/:id', adminBlogsController.update);
-adminBlogsRouter.get('/admin/blog/view/:id', adminBlogsController.detail);
-adminBlogsRouter.delete('/admin/blog/delete/:id', adminBlogsController.deleteRow);
+adminBlogsRouter.get('/admin/blogs', adminVerifyToken, adminBlogsController.indexOfAdmin);
+adminBlogsRouter.post('/admin/blog/add', adminVerifyToken, adminBlogsController.add);
+adminBlogsRouter.put('/admin/blog/edit/:id', adminVerifyToken, adminBlogsController.update);
+adminBlogsRouter.get('/admin/blog/view/:id', adminVerifyToken, adminBlogsController.detail);
+adminBlogsRouter.delete('/admin/blog/delete/:id', adminVerifyToken, adminBlogsController.deleteRow);
 
 
 

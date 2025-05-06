@@ -46,6 +46,8 @@ const db = {};
         db.transactions = database.collection('transactions');
         db.nutrition_advisor = database.collection('nutrition_advisor');
         db.videos = database.collection('videos');
+        db.user_plans = database.collection('user_plans');
+        db.admin = database.collection('admin');
 
     }
     catch (error) {

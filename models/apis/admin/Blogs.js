@@ -44,14 +44,11 @@ const update = async (id, data) => {
         updated_at: timestamp,
     }
 
-    console.log("Final updateData:", updateData);
     try {
         let resp = await db.blogs.findOneAndUpdate(
             { _id: new ObjectId(`${id}`) },
             { $set: updateData },
             { new: true, returnDocument: "after" });
-        console.log("respmodel", resp)
-
         return resp
     }
     catch (error) {
@@ -63,7 +60,6 @@ const update = async (id, data) => {
 const remove = async (id) => {
     try {
         let resp = await db.blogs.findOneAndUpdate({ _id: new ObjectId(`${id}`) }, { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } }, { returnDocument: "after" })
-        console.log("delete", resp)
         return resp
     } catch (error) {
         return ("Error in deleting the blog ", error)

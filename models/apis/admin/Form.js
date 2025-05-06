@@ -22,7 +22,6 @@ const insert = async (data) => {
         let resp = await db.form.insertOne(makeData);
         if (resp) {
             let record = await getById(resp.insertedId.toString());
-            // console.log(record)
             return record;
         }
         else {
@@ -37,7 +36,6 @@ const insert = async (data) => {
 const getById = async (id, select) => {
     try {
         let record = await db.form.findOne({ _id: new ObjectId(`${id}`) }, { projection: select });
-        // console.log(record)
         return record
     }
     catch (error) {

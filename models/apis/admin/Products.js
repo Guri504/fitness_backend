@@ -105,11 +105,9 @@ const getVariantsByProductId = async (id) => {
 }
 
 const removeVariant = async (deletedIds) => {
-    console.log('deletedIds')
     let resp = await db.product_variants.updateMany(
         { _id: { $in: deletedIds.map(id => new ObjectId(`${id}`)) } },
         { $set: { isDeleted: true, deleted_at: new Date().toLocaleString() } });
-    // console.log("resp", resp)
     return resp
 }
 
