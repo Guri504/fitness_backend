@@ -39,7 +39,6 @@ const verifyToken = async (req, res, next) => {
 
 const adminVerifyToken = async (req, res, next) => {
     try {
-        return ({ message: req.header });
         const authHeader = req.headers["authorization"];
         if (!authHeader || !authHeader.startsWith("Bearer ")) {
             return (
