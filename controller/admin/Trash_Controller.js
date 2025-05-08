@@ -50,7 +50,10 @@ const undoDelete = async (req, res) => {
             })
         )
     } catch (error) {
-
+        res.send({
+            status: false,
+            message: `Server Error`,
+        })
     }
 }
 
@@ -74,7 +77,10 @@ const deletePermanently = async (req, res) => {
             })
         )
     } catch (error) {
-
+        res.send({
+            status: false,
+            message: `Server Error`,
+        })
     }
 }
 
