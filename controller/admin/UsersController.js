@@ -1,16 +1,17 @@
 const userModel = require('../../models/apis/admin/Users');
 
-const index =async (req,res) => {
+const index = async (req, res) => {
     let resp = await userModel.getListing(req);
     res.send({
         status: true,
-        message: resp
+        message: 'User Listing',
+        data: resp
     })
 }
 
 const detail = async (req, res) => {
     let { id } = req.params;
-     let resp = await userModel.getById(id)
+    let resp = await userModel.getById(id)
     if (resp) {
         res.send({
             status: true,
@@ -30,13 +31,13 @@ const detail = async (req, res) => {
 const deleteRow = async (req, res) => {
     let { id } = req.params;
     let resp = await userModel.remove(id);
-    if(resp){
+    if (resp) {
         res.send({
             status: true,
             message: "User deleted successfully"
         })
     }
-    else{
+    else {
         res.send({
             status: false,
             message: "Unable to delete User"

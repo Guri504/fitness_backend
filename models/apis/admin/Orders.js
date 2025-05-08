@@ -63,6 +63,15 @@ const getProductById = async (id) => {
     }
 }
 
+const getCategoriesByIds = async (id) => {
+    try {
+        let resp = await db.products_category.find({ _id: { $in: id } }).toArray();
+        return resp;
+    } catch (error) {
+        return false
+    }
+}
+
 const getUsersByIds = async (id) => {
     try {
         let resp = await db.users.find({ _id: { $in: id } }).toArray();
@@ -123,5 +132,6 @@ module.exports = {
     getUsersByIds,
     getUserById,
     getOrdersLengthByUserId,
-    updateOrderStatusById
+    updateOrderStatusById,
+    getCategoriesByIds
 }

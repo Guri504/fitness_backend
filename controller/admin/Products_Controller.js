@@ -175,10 +175,48 @@ const detail = async (req, res) => {
     })
 }
 
+const getLessQuantityProductVariant = async (req, res) => {
+    try {
+        let variants = await ProductsModel.getVariants(req);
+        if (!variants) {
+            return res.send({ status: false, message: 'Variants not found' })
+        }
+
+        let productIds = [... new Set(variants.map(v => v.productId))];
+        let products = await ProductsModel.getProductsByIds(productIds)
+        console.log(products, '-----')
+        if (!products) {
+            return res.send({ status: false, message: 'Products not find' })
+        }
+
+        let finalData = variants.map(v => {
+            const match = products.find(p => p._id.toString() === v.productId.toString())
+            return {
+                _id: v._id,
+                stock: v.stock,
+                productId: v.productId,
+                productVariant: `${match.productName}-${v.size.title}`
+            }
+        })
+
+        return (
+            res.send({
+                status: true,
+                message: 'Low stock product fouond successfully',
+                data: finalData
+            })
+        )
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 module.exports = {
     add,
     update,
     index,
     deleteRow,
-    detail
+    detail,
+    getLessQuantityProductVariant
 }

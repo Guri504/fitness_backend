@@ -12,7 +12,7 @@ const getListingForClient = async (req, res) => {
 }
 
 const insert = async (slug, data) => {
-    let timeStamp = new Date().toLocaleString();
+    let timeStamp = new Date();
     let makeData = {
         ...data,
         slug: slug,
@@ -31,7 +31,7 @@ const insert = async (slug, data) => {
 }
 
 const insertVarient = async (data) => {
-    let timeStamp = new Date().toLocaleString();
+    let timeStamp = new Date();
     let makeData = data.map(variantData => ({
         ...variantData,
         status: 1,
@@ -118,6 +118,21 @@ const bulkOperation = async (bulkOps) => {
     }
 }
 
+const getVariants = async (req, res) => {
+    let listing = await db.product_variants.find(
+        { stock: { $lte: 10 } },
+        { projection: { _id: 1, productId: 1, stock: 1, size: 1 } }).sort({ stock: 1 }).limit(10).toArray();
+    return listing
+}
+
+const getProductsByIds = async (ids) => {
+    try {
+        let resp = await db.products.find({ _id: { $in: ids } }, { projection: { _id: 1, productName: 1 } }).toArray()
+        return resp;
+    } catch (error) {
+        return false;
+    }
+}
 
 module.exports = {
     getListingForAdmin,
@@ -130,5 +145,7 @@ module.exports = {
     removeVariantByProductId,
     getVariantsByProductId,
     removeVariant,
-    bulkOperation
+    bulkOperation,
+    getVariants,
+    getProductsByIds
 }

@@ -22,7 +22,9 @@ const orderListing = async (req, res) => {
         }
     })
 
-    const finalData = updatedResp.slice(0, limit)
+    let finalData = updatedResp
+
+    limit ? finalData = updatedResp.slice(0, limit) : finalData
 
     return (
         res.send({
@@ -116,10 +118,80 @@ const updateOrderStatus = async (req, res) => {
     )
 }
 
+const orderByCategory = async (req, res) => {
+    try {
 
+        let orders = await ordersModel.getOrderListing(req);
+        if (!orders) {
+            return res.send({ status: false, message: 'OrderListing not found' })
+        }
+
+        let productIds = [...new Set(orders?.flatMap(o => { return o?.orderListing.map(ol => new ObjectId(`${ol.productId}`)) }))];
+        let products = await ordersModel.getProductById(productIds);
+        if (!products || products.length === 0) {
+            return res.send({ status: false, message: 'Products not found' })
+        }
+
+        let categoryIds = [...new Set(products.flatMap(p => { return p?.productCategory.map(pc => new ObjectId(`${pc}`)) }))]
+        let categories = await ordersModel.getCategoriesByIds(categoryIds);
+        if (!categories || categories.length === 0) {
+            return res.send({ status: false, message: 'Category not found' })
+        }
+
+        let productCategoryMap = new Map();
+        products.forEach(p => {
+            p.productCategory.forEach(catId => {
+                productCategoryMap.set(p._id.toString(), catId.toString())
+            });
+        });
+
+        let categoryNameMap = new Map();
+        categories.forEach(ct => {
+            categoryNameMap.set(ct._id.toString(), ct.categoryTitle);
+        });
+
+        let categorySalesMap = new Map();
+        orders.forEach(order => {
+            const orderMonth = new Date(order.created_at).toLocaleString('default', { month: 'short' });
+            order.orderListing.forEach(ol => {
+                const productId = ol.productId.toString();
+                const categoryId = productCategoryMap.get(productId);
+                const price = parseInt(ol.price);
+                const quantity = parseInt(ol.quantity);
+                const total = price * quantity;
+
+                const key = `${categoryId}_${orderMonth}`;
+                const currentTotal = categorySalesMap.get(key) || 0;
+                categorySalesMap.set(key, currentTotal + total)
+            });
+        });
+
+        let finalOrders = [];
+        categorySalesMap.forEach((total, combinedKey) => {
+            const [categoryId, month] = combinedKey.split('_');
+            finalOrders.push({
+                category: categoryNameMap.get(categoryId),
+                totalRevenue: total,
+                month: month,
+            });
+        });
+
+        return (
+            res.send({
+                status: true,
+                message: 'Sales get by Category',
+                data: finalOrders
+            })
+        )
+    } catch (error) {
+        console.log(error)
+        res.status(500).send({ status: false, message: 'Server error' });
+    }
+}
 
 module.exports = {
     orderListing,
     getOrder,
-    updateOrderStatus
+    updateOrderStatus,
+    orderByCategory
 }

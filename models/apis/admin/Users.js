@@ -46,6 +46,16 @@ const signUpSchema = Joi.object({
 			then: Joi.required(),
 			otherwise: Joi.optional(),
 		}),
+	mobileNumber: Joi.string()
+		.min(10)
+		.message("Mobile NUmber must be at least 10 characters")
+		.max(10)
+		.message("Mobile NUmber must be at most 10 characters")
+		.when("$isEdit", {
+			is: false,
+			then: Joi.required(),
+			otherwise: Joi.optional(),
+		}),
 
 	email1: Joi.string()
 		.email()
@@ -209,7 +219,7 @@ const insert = async (data) => {
 	// if (!confirmPassword1 || confirmPassword1 !== password1) {
 	//     return { error: "Password does not match" }
 	// }
-	const timestamp = new Date().toLocaleString();
+	const timestamp = new Date();
 	const makeData = {
 		...data,
 		slug: null,
@@ -379,8 +389,6 @@ const remove = async (id) => {
 		return false;
 	}
 };
-
-
 
 module.exports = {
 	signUpSchema,
