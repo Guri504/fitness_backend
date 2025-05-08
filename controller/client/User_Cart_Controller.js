@@ -100,6 +100,7 @@ const update = async (req, res) => {
 const removeVariant = async (req, res) => {
     let { id } = req.params;
     let data = req.body;
+    console.log(data)
     try {
         let resp = await userCartModel.removeVariantFromcart(id, data);
         if (resp) {

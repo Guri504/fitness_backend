@@ -3,6 +3,7 @@ const db = require('../../models/index');
 
 const getTrashListing = async (req, res) => {
     let { type } = req.params;
+
     try {
         if (!db[type]) {
             return res.send({ status: false, message: `Collection ${type} does not exist.` });
@@ -59,13 +60,14 @@ const undoDelete = async (req, res) => {
 
 const deletePermanently = async (req, res) => {
     let { type } = req.params;
-    let { id } = req.body;
+    let { data } = req.body;
+    console.log("id", data, "type", type)
     try {
         if (!db[type]) {
             return res.send({ status: false, message: `Collection ${type} does not exist.` });
         }
         let undo = await db[type].deleteOne(
-            { _id: new ObjectId(`${id}`) });
+            { _id: new ObjectId(`${data.id}`) });
         if (!undo) {
             return res.send({ status: false, message: `Not able to delete ${type}` })
         }
