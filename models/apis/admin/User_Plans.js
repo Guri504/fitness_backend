@@ -44,7 +44,7 @@ const update = async (id, data) => {
 
 const getListingForClient = async (id) => {
     try {
-        let listing = await db.user_plans.find({ userId: new ObjectId(`${id}`), isDeleted: false }).toArray();
+        let listing = await db.user_plans.find({ userId: new ObjectId(`${id}`), isDeleted: false, expired_at: { $gte: new Date() } }).toArray();
         return listing
     } catch (error) {
         console.log("-----", error);
@@ -65,8 +65,7 @@ const getPlanById = async (ids, categories) => {
                 continue;
             }
 
-            let plan = await db[category].findOne({ _id: id, expired_at: { $gte: new Date() } });
-
+            let plan = await db[category].findOne({ _id: id });
             if (plan) {
                 plan._collection = category; // optional: to track from which collection
                 results.push(plan);
