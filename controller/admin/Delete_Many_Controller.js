@@ -4,7 +4,6 @@ const db = require('../../models/index');
 const softDeleteData = async (req, res) => {
     let { type } = req.query;
     let { check } = req.body;
-    console.log(type, check)
     try {
         let objectIds = check.map(id => new ObjectId(`${id}`))
         let resp = await db[type].updateMany(
@@ -12,7 +11,6 @@ const softDeleteData = async (req, res) => {
             { $set: { isDeleted: true, deleted_at: new Date() } },
             { new: true, returnDocument: 'after' }
         )
-        console.log(resp, '---')
         if (!resp) {
             return res.send({ status: false, message: 'Unable to delete data' })
         }

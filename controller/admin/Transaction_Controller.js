@@ -38,7 +38,6 @@ const getTransaction = async (req, res) => {
     }
 
     let user = await transactionModel.getUserById(transaction.userId);
-    console.log("user", user)
     if (!user) {
         return res.send({ status: false, message: 'User not found' })
     }

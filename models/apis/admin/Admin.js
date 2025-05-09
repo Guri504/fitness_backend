@@ -53,15 +53,12 @@ const updateOtp = async (id, token, expiresAt) => {
 };
 
 const resetPassword = async (tempToken, newPassword) => {
-    console.log(tempToken, newPassword)
     try {
         let resp = await db.admin.findOneAndUpdate(
             { tempToken: tempToken, tempTokenExpiry: { $gte: Date.now() } },
             { $set: { password: newPassword } },
             { new: true, returnDocument: "after" }
         )
-        console.log(resp)
-
         if (!resp) {
             return false
         }

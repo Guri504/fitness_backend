@@ -184,7 +184,6 @@ const getLessQuantityProductVariant = async (req, res) => {
 
         let productIds = [... new Set(variants.map(v => v.productId))];
         let products = await ProductsModel.getProductsByIds(productIds)
-        console.log(products, '-----')
         if (!products) {
             return res.send({ status: false, message: 'Products not find' })
         }

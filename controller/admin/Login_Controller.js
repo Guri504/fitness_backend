@@ -7,7 +7,6 @@ const login = async (req, res) => {
     try {
         const { email, password } = req.body
         const admin = await adminModel.getByEmail(email);
-        console.log("admin", admin)
         if (!admin) {
             return (
                 res.send({

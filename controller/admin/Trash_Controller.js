@@ -61,7 +61,6 @@ const undoDelete = async (req, res) => {
 const deletePermanently = async (req, res) => {
     let { type } = req.params;
     let { data } = req.body;
-    console.log("id", data, "type", type)
     try {
         if (!db[type]) {
             return res.send({ status: false, message: `Collection ${type} does not exist.` });
