@@ -116,6 +116,7 @@ const getPlan = async (req, res) => {
 
     let planResp = await UserPlanModel.getPlanById(planIds, categories);
     if (!planResp) { return res.send({ status: false, message: 'No plan listing found' }) }
+
     return (
         res.send({
             status: true,
