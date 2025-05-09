@@ -4,10 +4,9 @@ const ordersModel = require('../../models/apis/admin/Orders');
 const orderListing = async (req, res) => {
     let { limit } = req.query;
     let resp = await ordersModel.getOrderListing(req);
-    if (!resp) {
+    if (!resp || resp.length === 0) {
         return res.send({ status: false, message: 'Not able to find Orders Listing' })
     }
-
     const userIds = resp?.length > 0 && resp.map(o => o.userId);
     const user = await ordersModel.getUsersByIds(userIds);
     if (!user) { return res.send({ status: false, message: 'User not find' }) }
